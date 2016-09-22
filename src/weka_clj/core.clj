@@ -25,26 +25,25 @@
     (comp-fn data)))
 
 (defn- ->instances [attrs capacity]
-    (let [dataset (Instances. "users"
-                              (java.util.ArrayList. (vals attrs))
-                              capacity)]
-      (fn
-        ([] '())
-        ([xs x]
-         (let [num-attrs (count (keys attrs))
-               instance  (DenseInstance. num-attrs)]
-           (.setDataset instance dataset)
-           (loop [kws (keys x)
-                  cnt 0]
-             (let [k (first kws)]
-               (if (nil? k)
-                 ;; @TODO: should this return the Instances DataSet?
-                 (conj xs instance)
-                 ;; else
-                 (let [a (get x k)
-                       v (if (number? a) (double a) a)]
-                   (.setValue instance cnt v)
-                   (recur (rest kws) (+ 1 cnt)))))))))))
+  (fn
+    ([] (Instances. "users"
+                    (java.util.ArrayList. (vals attrs))
+                    capacity))
+    ([xs x]
+     (let [num-attrs (count (keys attrs))
+           instance  (DenseInstance. num-attrs)]
+       (.setDataset instance xs)
+       (loop [kws (keys x)
+              cnt 0]
+         (let [k (first kws)]
+           (if (nil? k)
+             ;; then
+             xs
+             ;; else
+             (let [a (get x k)
+                   v (if (number? a) (double a) a)]
+               (.setValue instance cnt v)
+               (recur (rest kws) (+ 1 cnt))))))))))
 
 (defn maps->instances [list]
   (let [attrs (reduce-attributes list)]

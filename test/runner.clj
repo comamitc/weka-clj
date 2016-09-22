@@ -1,10 +1,11 @@
 (ns runner
   (:require [clojure.test :refer :all]
             [weka-clj.core :refer [maps->instances reduce-attributes]])
-  (:import [weka.core Instance Attribute]))
+  (:import [weka.core Instance Instances Attribute]))
 
 (deftest test-list
   (let [instances (maps->instances [{:foo "bar" :baz 1} {:foo "boo" :baz 2} {:foo "bob" :baz 3}])]
+    (is (instance? Instances instances))
     (is (every? #(instance? Instance %) instances))
     (is (every? #(= 2 (.numValues %)) instances))))
 
