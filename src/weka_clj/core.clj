@@ -13,16 +13,10 @@
 (defn- collect-raw [acc k v]
   (update-in acc [k] conj v))
 
-;; @TODO: implement fold here
 (defn- ->raw
   ([] {})
   ([xs x]
    (r/reduce collect-raw xs x)))
-
-(defn reduce-attributes [data]
-  (let [comp-fn (comp (partial r/fold ->attrs)
-                      (partial r/fold ->raw))]
-    (comp-fn data)))
 
 (defn- ->instances [attrs capacity]
   (fn
@@ -44,6 +38,12 @@
                    v (if (number? a) (double a) a)]
                (.setValue instance cnt v)
                (recur (rest kws) (+ 1 cnt))))))))))
+
+;; @TODO: implement fold here
+(defn reduce-attributes [data]
+ (let [comp-fn (comp (partial r/fold ->attrs)
+                     (partial r/fold ->raw))]
+   (comp-fn data)))
 
 (defn maps->instances [list]
   (let [attrs (reduce-attributes list)]
