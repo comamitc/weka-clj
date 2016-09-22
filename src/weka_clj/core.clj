@@ -29,7 +29,7 @@
                               (java.util.ArrayList. (vals attrs))
                               capacity)]
       (fn
-        ([] (list))
+        ([] '())
         ([xs x]
          (let [num-attrs (count (keys attrs))
                instance  (DenseInstance. num-attrs)]
