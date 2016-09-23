@@ -1,6 +1,12 @@
 weka-clj
 ===
 
+A set of weka helper functions for clojure.
+
+# Coverage
+
+0. `weka.core.Instances` from a sequence of maps. 
+
 # Test
 
 ```sh
