@@ -3,9 +3,11 @@ weka-clj
 
 A set of weka helper functions for clojure.
 
+[![Codeship Status](https://codeship.com/projects/c5a62ca0-6402-0134-a722-7ac11de88606/status?branch=master)](https://www.codeship.io/projects/175508)
+
 # Coverage
 
-0. `weka.core.Instances` from a sequence of maps. 
+0. `weka.core.Instances` from a sequence of maps.
 
 # Test
 
