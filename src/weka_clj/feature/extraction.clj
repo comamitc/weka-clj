@@ -5,9 +5,10 @@
 (defn- ->attrs
   ([] {})
   ([xs k v]
-   (let [attr (if (every? number? v)
+   (let [v    (filter some? v)
+         attr (if (every? number? v)
                 (Attribute. (name k))
-                (Attribute. (name k) (filter some? v)))]
+                (Attribute. (name k) v))]
      (assoc xs k attr))))
 
 (defn- collect-raw [acc k v]
