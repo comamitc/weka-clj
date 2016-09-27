@@ -5,7 +5,7 @@
 (defn- ->attrs
   ([] {})
   ([xs k v]
-   (let [v    (filter some? v)
+   (let [v    (filter some? (distinct v))
          attr (if (every? number? v)
                 (Attribute. (name k))
                 (Attribute. (name k) v))]
