@@ -32,7 +32,9 @@
          (let [k (first kws)]
            (if (nil? k)
              ;; then
-             xs
+             (do
+               (.add xs instance)
+               xs)
              ;; else
              (let [a (get x k)
                    v (if (number? a) (double a) a)]
@@ -46,8 +48,8 @@
 (defn attributize
   "Takes a sequence of maps and returns a `list` of `weka.core.Attributes`."
   [data]
-  (let [comp-fn (comp (partial r/reduce ->attrs {})
-                      (partial r/reduce ->raw {}))]
+  (let [comp-fn (comp (partial r/fold ->attrs)
+                      (partial r/fold ->raw))]
    (comp-fn data)))
 
 (defn maps->instances
