@@ -1,4 +1,4 @@
-(defproject weka-clj "0.1.0"
+(defproject weka-clj "0.1.1"
   :description "Tools for weka written in Clojure"
   :license {:name "MIT License"
             :url "http://www.opensource.org/licenses/mit-license.php"
