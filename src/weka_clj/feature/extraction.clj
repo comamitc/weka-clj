@@ -16,8 +16,7 @@
 
 (defn- ->raw
   ([] {})
-  ([xs x]
-   (r/reduce collect-raw xs x)))
+  ([xs x] (r/reduce collect-raw xs x)))
 
 (defn- ->instances [attrs capacity]
   (fn
@@ -47,9 +46,9 @@
 (defn attributize
   "Takes a sequence of maps and returns a `list` of `weka.core.Attributes`."
   [data]
-  (let [comp-fn (comp (partial r/fold ->attrs)
-                      (partial r/fold ->raw))]
-    (comp-fn data)))
+  (let [comp-fn (comp (partial r/reduce ->attrs {})
+                      (partial r/reduce ->raw {}))]
+   (comp-fn data)))
 
 (defn maps->instances
   "Takes a sequence of maps and returns `weka.core.Instances`."

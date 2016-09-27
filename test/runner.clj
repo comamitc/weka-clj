@@ -4,7 +4,7 @@
   (:import [weka.core Instance Instances Attribute]))
 
 (deftest test-map->instances
-  (let [instances (maps->instances [{:foo "bar" :baz 1} {:foo "boo" :baz 2} {:foo "bob" :baz 3}])]
+  (let [instances (maps->instances [{:foo "bar" :baz 1} {:foo "bob" :baz 2} {:foo "bob" :baz 3}])]
     (is (instance? Instances instances))
     (is (every? #(instance? Instance %) instances))
     (is (every? #(= 2 (.numValues %)) instances))))
@@ -17,7 +17,7 @@
     (is (= true (.isNominal (:foo attrs))))))
 
 (deftest test-null-attribute
-  (let [attrs     (attributize [{:foo nil :baz 1} {:foo "boo" :baz 2}])
+  (let [attrs     (attributize  [{:foo nil :baz 1} {:foo "boo" :baz 2}])
         attrs2     (attributize [{:foo "bar" :baz nil} {:foo "bar" :baz 2}])
         instances (maps->instances [{:foo nil :baz 1} {:foo "boo" :baz 2}])]
     (is (instance? Attribute (:foo attrs)))
