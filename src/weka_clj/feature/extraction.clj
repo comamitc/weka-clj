@@ -7,7 +7,7 @@
   ([xs k v]
    (let [attr (if (every? number? v)
                 (Attribute. (name k))
-                (Attribute. (name k) v))]
+                (Attribute. (name k) (filter some? v)))]
      (assoc xs k attr))))
 
 (defn- collect-raw [acc k v]
@@ -36,7 +36,10 @@
              ;; else
              (let [a (get x k)
                    v (if (number? a) (double a) a)]
-               (.setValue instance cnt v)
+               (if (some? v)
+                (.setValue instance cnt v)
+                ;; set the value as missing when value is null
+                (.setMissing instance cnt))
                (recur (rest kws) (+ 1 cnt))))))))))
 
 ;; @TODO: implement fold here

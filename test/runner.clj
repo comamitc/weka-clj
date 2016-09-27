@@ -15,3 +15,9 @@
     (is (instance? Attribute (:foo attrs)))
     (is (= true (.isNumeric (:baz attrs))))
     (is (= true (.isNominal (:foo attrs))))))
+
+(deftest test-null-attribute
+  (let [attrs     (attributize [{:foo nil :baz 1} {:foo "boo" :baz 2}])
+        instances (maps->instances [{:foo nil :baz 1} {:foo "boo" :baz 2}])]
+    (is (instance? Attribute (:foo attrs)))
+    (is (= true (.isNominal (:foo attrs))))))
