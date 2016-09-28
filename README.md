@@ -15,6 +15,17 @@ $> lein [auto] test
 
 **note:** `auto` is optional.
 
+# Releasing
+
+Increment the `project.clj` version according to `SEMVER` and then:
+
+```sh
+$> lein codox
+$> git tag v{version}
+&> git push origin master --tags
+&> lein deploy clojars
+```
+
 # License
 
 The MIT License (MIT)
