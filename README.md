@@ -5,7 +5,7 @@ A set of weka helper functions for clojure.
 
 [![Codeship Status](https://codeship.com/projects/c5a62ca0-6402-0134-a722-7ac11de88606/status?branch=master)](https://www.codeship.io/projects/175508) [![Clojars Project](https://img.shields.io/clojars/v/weka-clj.svg)](https://clojars.org/weka-clj)
 
-[API](https://github.com/comamitc/weka-clj)
+[API](https://comamitc.github.io/weka-clj)
 
 # Test
 
