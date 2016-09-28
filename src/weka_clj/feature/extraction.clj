@@ -19,8 +19,9 @@
   ([xs x] (r/reduce collect-raw xs x)))
 
 (defn- ->instances [attrs capacity]
+(defn- ->instances [ds-name attrs capacity]
   (fn
-    ([] (Instances. "users"
+    ([] (Instances. ds-name
                     (java.util.ArrayList. (vals attrs))
                     capacity))
     ([xs x]
@@ -53,7 +54,14 @@
    (comp-fn data)))
 
 (defn maps->instances
-  "Takes a sequence of maps and returns `weka.core.Instances`."
-  [list]
-  (let [attrs (attributize list)]
-    (r/fold (->instances attrs (count list)) list)))
+  "Takes a sequence of maps and a dataset relation name.
+
+  Returns a map of shape:
+
+  `{:attributes clojure.lang.PresistentList<weka.core.Attribute>
+   :instances weka.core.Instances}`"
+  ([data] (maps->instances data "default"))
+  ([data ds-name]
+   (let [attrs (attributize data)]
+     {:attributes attrs
+      :instances  (r/fold (->instances ds-name attrs (count data)) data)})))
