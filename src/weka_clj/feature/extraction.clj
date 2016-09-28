@@ -20,16 +20,14 @@
 
 (defn make-instance
   "Takes a dataset (`weka.core.Instances`), a map of attributes and a new
-  data point to be converted to an instance. Returns a `weka.core.Instance`." 
+  data point to be converted to an instance. Returns a `weka.core.Instance`."
   [dataset attrs item]
   (let [num-attrs (count attrs)
         instance  (DenseInstance. num-attrs)]
     (.setDataset instance dataset)
-    ;; @TODO: core.reducers here?
     (doseq [[k v] item]
       (let [attr (get attrs k)
             v    (if (number? v) (double v) v)]
-        ;; @TODO: what if this isn't a dataset viable attribute
         (when (some? attr)
           (if (some? v)
             (.setValue instance attr v)
