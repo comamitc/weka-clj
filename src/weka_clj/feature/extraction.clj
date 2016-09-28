@@ -18,36 +18,38 @@
   ([] {})
   ([xs x] (r/reduce collect-raw xs x)))
 
-(defn- ->instances [attrs capacity]
+(defn make-instance
+  "Takes a dataset (`weka.core.Instances`), a map of attributes and a new
+  data point to be converted to an instance. Returns a `weka.core.Instance`." 
+  [dataset attrs item]
+  (let [num-attrs (count attrs)
+        instance  (DenseInstance. num-attrs)]
+    (.setDataset instance dataset)
+    ;; @TODO: core.reducers here?
+    (doseq [[k v] item]
+      (let [attr (get attrs k)
+            v    (if (number? v) (double v) v)]
+        ;; @TODO: what if this isn't a dataset viable attribute
+        (when (some? attr)
+          (if (some? v)
+            (.setValue instance attr v)
+            (.setMissing instance attr))))) ;; set the as missing when value is null
+    instance))
+
 (defn- ->instances [ds-name attrs capacity]
   (fn
     ([] (Instances. ds-name
                     (java.util.ArrayList. (vals attrs))
                     capacity))
-    ([xs x]
-     (let [num-attrs (count (keys attrs))
-           instance  (DenseInstance. num-attrs)]
-       (.setDataset instance xs)
-       (loop [kws (keys x)
-              cnt 0]
-         (let [k (first kws)]
-           (if (nil? k)
-             ;; then
-             (do
-               (.add xs instance)
-               xs)
-             ;; else
-             (let [a (get x k)
-                   v (if (number? a) (double a) a)]
-               (if (some? v)
-                (.setValue instance cnt v)
-                ;; set the value as missing when value is null
-                (.setMissing instance cnt))
-               (recur (rest kws) (+ 1 cnt))))))))))
+    ([dataset item] ()
+      (let [instance (make-instance dataset attrs item)]
+        (.add dataset instance)
+        dataset))))
 
 ;; @TODO: implement fold here
 (defn attributize
-  "Takes a sequence of maps and returns a `list` of `weka.core.Attributes`."
+  "Takes a sequence of maps and returns:
+  `clojure.lang.PresistentList<weka.core.Attribute>`"
   [data]
   (let [comp-fn (comp (partial r/reduce ->attrs {})
                       (partial r/reduce ->raw {}))]
