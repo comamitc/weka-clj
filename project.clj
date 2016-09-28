@@ -12,6 +12,6 @@
           :output-path "docs/"
           :source-uri "https://github.com/comamitc/weka-clj/tree/v{version}/{filepath}#L{line}"
           :metadata {:doc/format :markdown}}
-  :url "https://github.com/comamitc/weka-clj"
+  :url "https://comamitc.github.io/weka-clj/"
   :source-paths ["src"]
   :test-paths ["test"])
